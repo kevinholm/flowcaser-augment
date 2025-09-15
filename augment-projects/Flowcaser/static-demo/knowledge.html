@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowCaser - Viden</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .card { @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6; }
+        .btn-primary { @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200; }
+        .btn-secondary { @apply bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-lg transition-colors duration-200; }
+        .badge { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium; }
+        .badge-primary { @apply bg-blue-100 text-blue-800; }
+        .badge-success { @apply bg-green-100 text-green-800; }
+        .badge-warning { @apply bg-yellow-100 text-yellow-800; }
+        .badge-danger { @apply bg-red-100 text-red-800; }
+        .nav-active { @apply bg-blue-100 text-blue-900; }
+        .nav-item { @apply text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md; }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <div class="h-screen flex overflow-hidden bg-gray-100">
+        <!-- Sidebar -->
+        <div class="hidden md:flex md:flex-shrink-0">
+            <div class="flex flex-col w-64">
+                <div class="flex flex-col h-0 flex-1 border-r border-gray-200 bg-white">
+                    <div class="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
+                        <div class="flex items-center flex-shrink-0 px-4">
+                            <h1 class="text-xl font-bold text-blue-600">FlowCaser</h1>
+                        </div>
+                        <nav class="mt-5 flex-1 px-2 bg-white space-y-1">
+                            <a href="index.html" class="nav-item">
+                                <svg class="text-gray-400 group-hover:text-gray-500 mr-3 flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
+                                </svg>
+                                Oversigt
+                            </a>
+                            <a href="knowledge.html" class="nav-active group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                                <svg class="text-blue-500 mr-3 flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                                Viden
+                            </a>
+                            <a href="bugs.html" class="nav-item">
+                                <svg class="text-gray-400 group-hover:text-gray-500 mr-3 flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Bugs
+                            </a>
+                            <a href="features.html" class="nav-item">
+                                <svg class="text-gray-400 group-hover:text-gray-500 mr-3 flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                </svg>
+                                Features
+                            </a>
+                            <a href="time.html" class="nav-item">
+                                <svg class="text-gray-400 group-hover:text-gray-500 mr-3 flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Tid
+                            </a>
+                            <a href="chat.html" class="nav-item">
+                                <svg class="text-gray-400 group-hover:text-gray-500 mr-3 flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                </svg>
+                                Chat
+                            </a>
+                            <a href="settings.html" class="nav-item">
+                                <svg class="text-gray-400 group-hover:text-gray-500 mr-3 flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                Indstillinger
+                            </a>
+                        </nav>
+                    </div>
+                    <div class="flex-shrink-0 flex border-t border-gray-200 p-4">
+                        <div class="flex items-center">
+                            <div class="w-9 h-9 bg-gray-300 rounded-full flex items-center justify-center">
+                                <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-700">Demo Bruger</p>
+                                <p class="text-xs font-medium text-gray-500">admin</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="flex flex-col w-0 flex-1 overflow-hidden">
+            <!-- Top bar -->
+            <div class="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
+                <div class="flex-1 px-4 flex justify-between">
+                    <div class="flex-1 flex items-center max-w-lg">
+                        <div class="flex items-center w-full max-w-lg px-3 py-2 text-sm text-gray-500 bg-white border border-gray-300 rounded-lg">
+                            <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            <span class="flex-1 text-left">Søg...</span>
+                            <kbd class="hidden sm:inline-flex items-center px-2 py-1 text-xs font-mono text-gray-400 bg-gray-100 border border-gray-200 rounded">⌘K</kbd>
+                        </div>
+                    </div>
+                    <div class="ml-4 flex items-center md:ml-6">
+                        <a href="notifications.html" class="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 relative">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M9 11h.01M9 8h.01" />
+                            </svg>
+                            <span class="absolute -top-1 -right-1 h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">3</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page content -->
+            <main class="flex-1 relative overflow-y-auto focus:outline-none">
+                <div class="py-6">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                        <!-- Knowledge Content -->
+                        <div class="space-y-6">
+                            <!-- Header -->
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h1 class="text-2xl font-bold text-gray-900">Videns Base</h1>
+                                    <p class="mt-1 text-sm text-gray-500">Del og organiser teamets viden</p>
+                                </div>
+                                <button class="btn-primary">
+                                    <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                    </svg>
+                                    Ny Videns Case
+                                </button>
+                            </div>
+
+                            <!-- Search and Filter -->
+                            <div class="card">
+                                <div class="flex flex-col sm:flex-row gap-4">
+                                    <div class="flex-1">
+                                        <input type="text" placeholder="Søg i videns cases..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <select class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                            <option>Alle kategorier</option>
+                                            <option>Udvikling</option>
+                                            <option>Design</option>
+                                            <option>Marketing</option>
+                                        </select>
+                                        <select class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                            <option>Nyeste først</option>
+                                            <option>Ældste først</option>
+                                            <option>Mest populære</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Knowledge Cases Grid -->
+                            <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                                <!-- Knowledge Case 1 -->
+                                <div class="card hover:shadow-md transition-shadow cursor-pointer">
+                                    <div class="flex items-start justify-between">
+                                        <div class="flex-1">
+                                            <h3 class="text-lg font-medium text-gray-900 mb-2">API Integration Guide</h3>
+                                            <p class="text-sm text-gray-600 mb-3">Komplet guide til integration med vores REST API, inklusive autentificering og fejlhåndtering.</p>
+                                            <div class="flex items-center space-x-4 text-xs text-gray-500">
+                                                <span class="badge badge-primary">Udvikling</span>
+                                                <span>Af Peter Hansen</span>
+                                                <span>2 dage siden</span>
+                                            </div>
+                                        </div>
+                                        <div class="ml-4">
+                                            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Knowledge Case 2 -->
+                                <div class="card hover:shadow-md transition-shadow cursor-pointer">
+                                    <div class="flex items-start justify-between">
+                                        <div class="flex-1">
+                                            <h3 class="text-lg font-medium text-gray-900 mb-2">Design System Guidelines</h3>
+                                            <p class="text-sm text-gray-600 mb-3">Retningslinjer for brug af vores design system, farver, typografi og komponenter.</p>
+                                            <div class="flex items-center space-x-4 text-xs text-gray-500">
+                                                <span class="badge badge-warning">Design</span>
+                                                <span>Af Anna Nielsen</span>
+                                                <span>1 uge siden</span>
+                                            </div>
+                                        </div>
+                                        <div class="ml-4">
+                                            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Knowledge Case 3 -->
+                                <div class="card hover:shadow-md transition-shadow cursor-pointer">
+                                    <div class="flex items-start justify-between">
+                                        <div class="flex-1">
+                                            <h3 class="text-lg font-medium text-gray-900 mb-2">Deployment Procedure</h3>
+                                            <p class="text-sm text-gray-600 mb-3">Step-by-step guide til deployment af applikationer til produktion miljøet.</p>
+                                            <div class="flex items-center space-x-4 text-xs text-gray-500">
+                                                <span class="badge badge-success">DevOps</span>
+                                                <span>Af Lars Andersen</span>
+                                                <span>3 dage siden</span>
+                                            </div>
+                                        </div>
+                                        <div class="ml-4">
+                                            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Knowledge Case 4 -->
+                                <div class="card hover:shadow-md transition-shadow cursor-pointer">
+                                    <div class="flex items-start justify-between">
+                                        <div class="flex-1">
+                                            <h3 class="text-lg font-medium text-gray-900 mb-2">Customer Support Best Practices</h3>
+                                            <p class="text-sm text-gray-600 mb-3">Bedste praksis for kundesupport, inklusive response tider og eskalering.</p>
+                                            <div class="flex items-center space-x-4 text-xs text-gray-500">
+                                                <span class="badge badge-danger">Support</span>
+                                                <span>Af Maria Larsen</span>
+                                                <span>5 dage siden</span>
+                                            </div>
+                                        </div>
+                                        <div class="ml-4">
+                                            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Stats -->
+                            <div class="card bg-gray-50">
+                                <div class="flex items-center justify-between text-sm text-gray-600">
+                                    <span>Total: 23 videns cases</span>
+                                    <span>Opdateret: 2 dage siden</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
