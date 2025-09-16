@@ -1,5 +1,3 @@
-'use client'
-
 // Skeleton Loading Components for Professional UX
 export function SkeletonCard() {
   return (

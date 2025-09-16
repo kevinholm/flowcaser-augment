@@ -28,12 +28,14 @@ export default function Login() {
       if (inviteTeam) {
         try {
           await joinTeam(inviteTeam)
-        } catch (e: any) {
-          console.error('Join team failed', e)
+        } catch (e: unknown) {
+          const errorMessage = e instanceof Error ? e.message : 'Join team failed'
+          console.error('Join team failed', errorMessage)
         }
       }
-    } catch (err: any) {
-      setError(err.message || 'Der opstod en fejl')
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Der opstod en fejl'
+      setError(errorMessage)
     }
   }
 

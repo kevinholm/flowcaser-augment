@@ -5,15 +5,7 @@ import { useAuthStore } from '../stores/authStore'
 import LoadingSpinner from '../components/common/LoadingSpinner'
 import toast from 'react-hot-toast'
 import { FormModal, ConfirmModal } from '../components/common/Modal'
-
-interface TimeLog {
-  id: string
-  description: string
-  project: string
-  hours: number
-  date: string
-  created_at: string
-}
+import type { TimeLog, TimeLogInsert, TimeLogUpdate } from '../lib/database.types'
 
 export default function Time() {
   const [timeLogs, setTimeLogs] = useState<TimeLog[]>([])
@@ -24,8 +16,18 @@ export default function Time() {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selected, setSelected] = useState<TimeLog | null>(null)
   const [submitting, setSubmitting] = useState(false)
-  const [createForm, setCreateForm] = useState({ description: '', project: '', hours: 1, date: new Date().toISOString().slice(0,10) })
-  const [editForm, setEditForm] = useState({ description: '', project: '', hours: 1, date: new Date().toISOString().slice(0,10) })
+  const [createForm, setCreateForm] = useState<Pick<TimeLogInsert, 'description' | 'project' | 'hours' | 'date'>>({
+    description: '',
+    project: '',
+    hours: 1,
+    date: new Date().toISOString().slice(0,10)
+  })
+  const [editForm, setEditForm] = useState<Pick<TimeLogUpdate, 'description' | 'project' | 'hours' | 'date'>>({
+    description: '',
+    project: '',
+    hours: 1,
+    date: new Date().toISOString().slice(0,10)
+  })
 
   const { user } = useAuthStore()
 

@@ -1,5 +1,6 @@
 import { createSupabaseClient } from './supabase'
 import { User } from '@supabase/supabase-js'
+import type { User as UserProfile, Team, UserInsert, UserUpdate, TeamInsert } from './database.types'
 
 export interface AuthUser extends User {
   user_metadata: {
@@ -8,29 +9,12 @@ export interface AuthUser extends User {
   }
 }
 
-export interface UserProfile {
-  id: string
-  email: string
-  full_name: string | null
-  avatar_url: string | null
-  team_id: string | null
-  role: 'admin' | 'member' | 'viewer'
-  created_at: string
-  updated_at: string
-}
-
-export interface Team {
-  id: string
-  name: string
-  description: string | null
-  created_by: string
-  created_at: string
-  updated_at: string
-}
+// Re-export types for convenience
+export type { UserProfile, Team }
 
 export const signUp = async (email: string, password: string, fullName: string) => {
   const supabase = createSupabaseClient()
-  
+
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -45,13 +29,15 @@ export const signUp = async (email: string, password: string, fullName: string) 
 
   // Create user profile
   if (data.user) {
+    const userInsert: UserInsert = {
+      id: data.user.id,
+      email: data.user.email!,
+      full_name: fullName,
+    }
+
     const { error: profileError } = await supabase
       .from('users')
-      .insert({
-        id: data.user.id,
-        email: data.user.email!,
-        full_name: fullName,
-      })
+      .insert(userInsert)
 
     if (profileError) throw profileError
   }
@@ -100,9 +86,9 @@ export const getUserProfile = async (userId: string): Promise<UserProfile | null
   return data
 }
 
-export const updateUserProfile = async (userId: string, updates: Partial<UserProfile>) => {
+export const updateUserProfile = async (userId: string, updates: UserUpdate): Promise<UserProfile> => {
   const supabase = createSupabaseClient()
-  
+
   const { data, error } = await supabase
     .from('users')
     .update(updates)
@@ -111,59 +97,65 @@ export const updateUserProfile = async (userId: string, updates: Partial<UserPro
     .single()
 
   if (error) throw error
-  return data
+  return data as UserProfile
 }
 
-export const createTeam = async (name: string, description?: string) => {
+export const createTeam = async (name: string, description?: string): Promise<Team> => {
   const supabase = createSupabaseClient()
   const user = await getCurrentUser()
-  
+
   if (!user) throw new Error('User not authenticated')
+
+  const teamInsert: TeamInsert = {
+    name,
+    description: description || null,
+    created_by: user.id,
+  }
 
   const { data: team, error: teamError } = await supabase
     .from('teams')
-    .insert({
-      name,
-      description,
-      created_by: user.id,
-    })
+    .insert(teamInsert)
     .select()
     .single()
 
   if (teamError) throw teamError
 
   // Update user's team_id and make them admin
+  const userUpdate: UserUpdate = {
+    team_id: team.id,
+    role: 'admin',
+  }
+
   const { error: userError } = await supabase
     .from('users')
-    .update({
-      team_id: team.id,
-      role: 'admin',
-    })
+    .update(userUpdate)
     .eq('id', user.id)
 
   if (userError) throw userError
 
-  return team
+  return team as Team
 }
 
-export const joinTeam = async (teamId: string) => {
+export const joinTeam = async (teamId: string): Promise<UserProfile> => {
   const supabase = createSupabaseClient()
   const user = await getCurrentUser()
-  
+
   if (!user) throw new Error('User not authenticated')
+
+  const userUpdate: UserUpdate = {
+    team_id: teamId,
+    role: 'member',
+  }
 
   const { data, error } = await supabase
     .from('users')
-    .update({
-      team_id: teamId,
-      role: 'member',
-    })
+    .update(userUpdate)
     .eq('id', user.id)
     .select()
     .single()
 
   if (error) throw error
-  return data
+  return data as UserProfile
 }
 
 export const getTeam = async (teamId: string): Promise<Team | null> => {

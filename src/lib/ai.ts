@@ -1,6 +1,5 @@
-'use client'
-
 import { createSupabaseClient } from './supabase'
+import type { Bug, FeatureRequest, KnowledgeCase, TimeLog, Team } from './database.types'
 
 export interface AIMessage {
   id: string
@@ -9,16 +8,16 @@ export interface AIMessage {
   timestamp: Date
   context?: {
     type: 'knowledge' | 'bugs' | 'features' | 'time' | 'general'
-    data?: any[]
+    data?: (Bug | FeatureRequest | KnowledgeCase | TimeLog)[]
   }
 }
 
 export interface AIContext {
-  knowledge: any[]
-  bugs: any[]
-  features: any[]
-  timeLogs: any[]
-  teamInfo: any
+  knowledge: KnowledgeCase[]
+  bugs: Bug[]
+  features: FeatureRequest[]
+  timeLogs: TimeLog[]
+  teamInfo: Team | null
 }
 
 class AIService {

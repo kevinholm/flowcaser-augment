@@ -1,4 +1,5 @@
 import { createSupabaseClient } from './supabase'
+import type { FileAttachment, FileAttachmentInsert } from './database.types'
 
 export interface FileUpload {
   file: File
@@ -8,19 +9,8 @@ export interface FileUpload {
   uploadedBy: string
 }
 
-export interface FileAttachment {
-  id: string
-  filename: string
-  file_path: string
-  file_size: number
-  mime_type: string
-  entity_type: string
-  entity_id: string
-  team_id: string
-  uploaded_by: string
-  created_at: string
-  public_url?: string
-}
+// Re-export FileAttachment type from database types
+export type { FileAttachment }
 
 export const uploadFile = async (upload: FileUpload): Promise<FileAttachment> => {
   const supabase = createSupabaseClient()

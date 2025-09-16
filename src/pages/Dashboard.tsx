@@ -15,6 +15,16 @@ import { useAuthStore } from '../stores/authStore'
 import LoadingSpinner from '../components/common/LoadingSpinner'
 import { FormModal, ConfirmModal } from '../components/common/Modal'
 import toast from 'react-hot-toast'
+import type {
+  Bug,
+  FeatureRequest,
+  KnowledgeCase,
+  TimeLog,
+  BugInsert,
+  FeatureRequestInsert,
+  KnowledgeCaseInsert,
+  TimeLogInsert
+} from '../lib/database.types'
 
 interface DashboardStats {
   totalBugs: number
@@ -31,12 +41,12 @@ interface DashboardStats {
 export default function Dashboard() {
   const [stats, setStats] = useState<DashboardStats | null>(null)
   const [loading, setLoading] = useState(true)
-  const [recentActivity, setRecentActivity] = useState<any[]>([])
+  const [recentActivity, setRecentActivity] = useState<(Bug | FeatureRequest | KnowledgeCase | TimeLog)[]>([])
   const { user } = useAuthStore()
 
   // Local data for sections
-  const [bugs, setBugs] = useState<any[]>([])
-  const [features, setFeatures] = useState<any[]>([])
+  const [bugs, setBugs] = useState<Bug[]>([])
+  const [features, setFeatures] = useState<FeatureRequest[]>([])
   const [teamId, setTeamId] = useState<string | null>(null)
 
   // Quick action modals

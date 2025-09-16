@@ -3,11 +3,20 @@ import { Cog6ToothIcon, UserIcon, BellIcon, ShieldCheckIcon, KeyIcon } from '@he
 import { useAuthStore } from '../stores/authStore'
 import { supabase } from '../lib/supabase'
 import toast from 'react-hot-toast'
+import type { User } from '../lib/database.types'
+
+interface TeamMember {
+  id: string
+  email: string
+  full_name: string | null
+  role: string | null
+}
 
 export default function Settings() {
+  const { user } = useAuthStore()
   const [activeTab, setActiveTab] = useState('profile')
   const [teamId, setTeamId] = useState<string | null>(null)
-  const [members, setMembers] = useState<Array<{id:string; email:string; full_name:string|null; role:string|null}>>([])
+  const [members, setMembers] = useState<TeamMember[]>([])
 
   useEffect(() => {
     const init = async () => {
@@ -21,8 +30,6 @@ export default function Settings() {
     }
     init()
   }, [user])
-
-  const { user } = useAuthStore()
 
   const tabs = [
     { id: 'profile', name: 'Profil', icon: UserIcon },

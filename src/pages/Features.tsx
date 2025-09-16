@@ -5,16 +5,10 @@ import { useAuthStore } from '../stores/authStore'
 import LoadingSpinner from '../components/common/LoadingSpinner'
 import toast from 'react-hot-toast'
 import { FormModal, ConfirmModal } from '../components/common/Modal'
+import type { FeatureRequest, FeatureRequestInsert, FeatureRequestUpdate } from '../lib/database.types'
 
-interface Feature {
-  id: string
-  title: string
-  description: string
-  status: 'pending' | 'approved' | 'in_development' | 'completed' | 'rejected'
-  votes: number
-  created_at: string
-  updated_at: string
-}
+// Alias for convenience
+type Feature = FeatureRequest
 
 export default function Features() {
   const [features, setFeatures] = useState<Feature[]>([])

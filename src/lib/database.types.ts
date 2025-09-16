@@ -6,6 +6,47 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+// Utility types for better type safety
+export type Tables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Row']
+export type TablesInsert<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Insert']
+export type TablesUpdate<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Update']
+
+// Specific table types for easier imports
+export type Team = Tables<'teams'>
+export type User = Tables<'users'>
+export type Bug = Tables<'bugs'>
+export type FeatureRequest = Tables<'feature_requests'>
+export type KnowledgeCase = Tables<'knowledge_cases'>
+export type TimeLog = Tables<'time_logs'>
+export type ChatMessage = Tables<'chat_messages'>
+export type Comment = Tables<'comments'>
+export type Notification = Tables<'notifications'>
+export type FileAttachment = Tables<'file_attachments'>
+
+// Insert types
+export type TeamInsert = TablesInsert<'teams'>
+export type UserInsert = TablesInsert<'users'>
+export type BugInsert = TablesInsert<'bugs'>
+export type FeatureRequestInsert = TablesInsert<'feature_requests'>
+export type KnowledgeCaseInsert = TablesInsert<'knowledge_cases'>
+export type TimeLogInsert = TablesInsert<'time_logs'>
+export type ChatMessageInsert = TablesInsert<'chat_messages'>
+export type CommentInsert = TablesInsert<'comments'>
+export type NotificationInsert = TablesInsert<'notifications'>
+export type FileAttachmentInsert = TablesInsert<'file_attachments'>
+
+// Update types
+export type TeamUpdate = TablesUpdate<'teams'>
+export type UserUpdate = TablesUpdate<'users'>
+export type BugUpdate = TablesUpdate<'bugs'>
+export type FeatureRequestUpdate = TablesUpdate<'feature_requests'>
+export type KnowledgeCaseUpdate = TablesUpdate<'knowledge_cases'>
+export type TimeLogUpdate = TablesUpdate<'time_logs'>
+export type ChatMessageUpdate = TablesUpdate<'chat_messages'>
+export type CommentUpdate = TablesUpdate<'comments'>
+export type NotificationUpdate = TablesUpdate<'notifications'>
+export type FileAttachmentUpdate = TablesUpdate<'file_attachments'>
+
 export interface Database {
   public: {
     Tables: {

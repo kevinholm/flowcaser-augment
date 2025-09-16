@@ -1,5 +1,7 @@
 import { create } from 'zustand'
 import { supabase } from '../lib/supabase'
+import { searchAcrossAllTables } from '../lib/supabase-helpers'
+import type { Bug, FeatureRequest, KnowledgeCase, TimeLog } from '../lib/database.types'
 
 export interface ChatMessage {
   id: string
@@ -8,18 +10,20 @@ export interface ChatMessage {
   timestamp: string
   context?: {
     type: 'bug' | 'feature' | 'knowledge' | 'time'
-    data: any
+    data: Bug | FeatureRequest | KnowledgeCase | TimeLog
   }
 }
+
+type SearchResult = Bug | FeatureRequest | KnowledgeCase | TimeLog
 
 interface AIState {
   messages: ChatMessage[]
   loading: boolean
-  searchResults: any[]
+  searchResults: SearchResult[]
   sendMessage: (content: string, userId: string) => Promise<void>
-  searchAcrossModules: (query: string, userId: string) => Promise<any[]>
+  searchAcrossModules: (query: string, userId: string) => Promise<SearchResult[]>
   clearMessages: () => void
-  getContextualResponse: (query: string, context: any) => Promise<string>
+  getContextualResponse: (query: string, context: SearchResult[]) => Promise<string>
 }
 
 export const useAIStore = create<AIState>((set, get) => ({

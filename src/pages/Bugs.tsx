@@ -5,17 +5,7 @@ import { useAuthStore } from '../stores/authStore'
 import LoadingSpinner from '../components/common/LoadingSpinner'
 import toast from 'react-hot-toast'
 import { FormModal, ConfirmModal } from '../components/common/Modal'
-
-interface Bug {
-  id: string
-  title: string
-  description: string
-  status: 'open' | 'in_progress' | 'resolved' | 'closed'
-  priority: 'low' | 'medium' | 'high' | 'critical'
-  assigned_to?: string
-  created_at: string
-  updated_at: string
-}
+import type { Bug, BugInsert, BugUpdate } from '../lib/database.types'
 
 export default function Bugs() {
   const [bugs, setBugs] = useState<Bug[]>([])
@@ -29,8 +19,17 @@ export default function Bugs() {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [selected, setSelected] = useState<Bug | null>(null)
-  const [createForm, setCreateForm] = useState({ title: '', description: '', priority: 'medium' as Bug['priority'] })
-  const [editForm, setEditForm] = useState({ title: '', description: '', status: 'open' as Bug['status'], priority: 'medium' as Bug['priority'] })
+  const [createForm, setCreateForm] = useState<Pick<BugInsert, 'title' | 'description' | 'priority'>>({
+    title: '',
+    description: '',
+    priority: 'medium'
+  })
+  const [editForm, setEditForm] = useState<Pick<BugUpdate, 'title' | 'description' | 'status' | 'priority'>>({
+    title: '',
+    description: '',
+    status: 'open',
+    priority: 'medium'
+  })
 
   const { user } = useAuthStore()
 

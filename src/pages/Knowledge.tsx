@@ -5,15 +5,7 @@ import { useAuthStore } from '../stores/authStore'
 import LoadingSpinner from '../components/common/LoadingSpinner'
 import toast from 'react-hot-toast'
 import { FormModal, ConfirmModal } from '../components/common/Modal'
-
-interface KnowledgeCase {
-  id: string
-  title: string
-  content: string
-  category: string
-  created_at: string
-  updated_at: string
-}
+import type { KnowledgeCase, KnowledgeCaseInsert, KnowledgeCaseUpdate } from '../lib/database.types'
 
 export default function Knowledge() {
   const [cases, setCases] = useState<KnowledgeCase[]>([])
@@ -26,8 +18,16 @@ export default function Knowledge() {
   const [showDelete, setShowDelete] = useState(false)
   const [selected, setSelected] = useState<KnowledgeCase | null>(null)
   const [submitting, setSubmitting] = useState(false)
-  const [createForm, setCreateForm] = useState({ title: '', content: '', category: '' })
-  const [editForm, setEditForm] = useState({ title: '', content: '', category: '' })
+  const [createForm, setCreateForm] = useState<Pick<KnowledgeCaseInsert, 'title' | 'content' | 'category'>>({
+    title: '',
+    content: '',
+    category: ''
+  })
+  const [editForm, setEditForm] = useState<Pick<KnowledgeCaseUpdate, 'title' | 'content' | 'category'>>({
+    title: '',
+    content: '',
+    category: ''
+  })
 
   const { user } = useAuthStore()
 

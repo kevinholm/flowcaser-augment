@@ -1,17 +1,10 @@
 import { create } from 'zustand'
 import { supabase } from '../lib/supabase'
 import toast from 'react-hot-toast'
+import type { Notification, NotificationInsert, NotificationUpdate } from '../lib/database.types'
 
-export interface Notification {
-  id: string
-  user_id: string
-  title: string
-  message: string
-  type: 'info' | 'success' | 'warning' | 'error'
-  read: boolean
-  created_at: string
-  data?: any
-}
+// Re-export for convenience
+export type { Notification }
 
 interface NotificationState {
   notifications: Notification[]
@@ -23,7 +16,7 @@ interface NotificationState {
   markAllAsRead: (userId: string) => Promise<void>
   subscribeToNotifications: (userId: string) => void
   unsubscribeFromNotifications: () => void
-  addNotification: (notification: Omit<Notification, 'id' | 'created_at'>) => void
+  addNotification: (notification: Omit<NotificationInsert, 'id' | 'created_at'>) => void
 }
 
 export const useNotificationStore = create<NotificationState>((set, get) => ({
@@ -55,7 +48,7 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
         unreadCount,
         loading: false 
       })
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error fetching notifications:', error)
       set({ loading: false })
     }
@@ -78,7 +71,7 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
         ),
         unreadCount: Math.max(0, state.unreadCount - 1)
       }))
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error marking notification as read:', error)
     }
   },
@@ -99,7 +92,7 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
         notifications: state.notifications.map(n => ({ ...n, read: true })),
         unreadCount: 0
       }))
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error marking all notifications as read:', error)
     }
   },
