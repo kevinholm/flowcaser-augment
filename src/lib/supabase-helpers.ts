@@ -19,7 +19,7 @@ import type {
 
 // Type-safe query builders
 export class SupabaseQueryBuilder {
-  // Bug queries
+  // Bug queries with proper typing
   static bugs() {
     return supabase.from('bugs').select('*')
   }
@@ -29,15 +29,15 @@ export class SupabaseQueryBuilder {
   }
 
   static bugsByTeam(teamId: string) {
-    return supabase.from('bugs').select('*').eq('team_id', teamId)
+    return supabase.from('bugs').select('*').eq('team_id', teamId).order('created_at', { ascending: false })
   }
 
   static createBug(bug: BugInsert) {
-    return supabase.from('bugs').insert(bug).select().single()
+    return supabase.from('bugs').insert(bug).select('*').single()
   }
 
   static updateBug(id: string, updates: BugUpdate) {
-    return supabase.from('bugs').update(updates).eq('id', id).select().single()
+    return supabase.from('bugs').update(updates).eq('id', id).select('*').single()
   }
 
   static deleteBug(id: string) {
@@ -54,15 +54,15 @@ export class SupabaseQueryBuilder {
   }
 
   static featuresByTeam(teamId: string) {
-    return supabase.from('feature_requests').select('*').eq('team_id', teamId)
+    return supabase.from('feature_requests').select('*').eq('team_id', teamId).order('created_at', { ascending: false })
   }
 
   static createFeature(feature: FeatureRequestInsert) {
-    return supabase.from('feature_requests').insert(feature).select().single()
+    return supabase.from('feature_requests').insert(feature).select('*').single()
   }
 
   static updateFeature(id: string, updates: FeatureRequestUpdate) {
-    return supabase.from('feature_requests').update(updates).eq('id', id).select().single()
+    return supabase.from('feature_requests').update(updates).eq('id', id).select('*').single()
   }
 
   static deleteFeature(id: string) {
@@ -79,15 +79,15 @@ export class SupabaseQueryBuilder {
   }
 
   static knowledgeCasesByTeam(teamId: string) {
-    return supabase.from('knowledge_cases').select('*').eq('team_id', teamId)
+    return supabase.from('knowledge_cases').select('*').eq('team_id', teamId).order('created_at', { ascending: false })
   }
 
   static createKnowledgeCase(knowledgeCase: KnowledgeCaseInsert) {
-    return supabase.from('knowledge_cases').insert(knowledgeCase).select().single()
+    return supabase.from('knowledge_cases').insert(knowledgeCase).select('*').single()
   }
 
   static updateKnowledgeCase(id: string, updates: KnowledgeCaseUpdate) {
-    return supabase.from('knowledge_cases').update(updates).eq('id', id).select().single()
+    return supabase.from('knowledge_cases').update(updates).eq('id', id).select('*').single()
   }
 
   static deleteKnowledgeCase(id: string) {
@@ -104,19 +104,19 @@ export class SupabaseQueryBuilder {
   }
 
   static timeLogsByTeam(teamId: string) {
-    return supabase.from('time_logs').select('*').eq('team_id', teamId)
+    return supabase.from('time_logs').select('*').eq('team_id', teamId).order('date', { ascending: false })
   }
 
   static timeLogsByUser(userId: string) {
-    return supabase.from('time_logs').select('*').eq('user_id', userId)
+    return supabase.from('time_logs').select('*').eq('user_id', userId).order('date', { ascending: false })
   }
 
   static createTimeLog(timeLog: TimeLogInsert) {
-    return supabase.from('time_logs').insert(timeLog).select().single()
+    return supabase.from('time_logs').insert(timeLog).select('*').single()
   }
 
   static updateTimeLog(id: string, updates: TimeLogUpdate) {
-    return supabase.from('time_logs').update(updates).eq('id', id).select().single()
+    return supabase.from('time_logs').update(updates).eq('id', id).select('*').single()
   }
 
   static deleteTimeLog(id: string) {
@@ -133,7 +133,7 @@ export class SupabaseQueryBuilder {
   }
 
   static usersByTeam(teamId: string) {
-    return supabase.from('users').select('*').eq('team_id', teamId)
+    return supabase.from('users').select('*').eq('team_id', teamId).order('created_at', { ascending: true })
   }
 
   // Team queries

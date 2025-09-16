@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
-import { useAuth } from '@/components/providers/AuthProvider'
-import { 
-  getFileAttachments, 
-  deleteFile, 
-  formatFileSize, 
-  getFileIcon, 
+import { useAuthStore } from '../../stores/authStore'
+import {
+  getFileAttachments,
+  deleteFile,
+  formatFileSize,
+  getFileIcon,
   isImageFile,
-  FileAttachment 
-} from '@/lib/storage'
+  type FileAttachment
+} from '../../lib/storage'
 import toast from 'react-hot-toast'
 import {
   TrashIcon,
@@ -26,7 +26,7 @@ export default function FileAttachments({
   entityId,
   refreshTrigger = 0,
 }: FileAttachmentsProps) {
-  const { user, profile } = useAuth()
+  const { user } = useAuthStore()
   const [attachments, setAttachments] = useState<FileAttachment[]>([])
   const [loading, setLoading] = useState(true)
   const [deleting, setDeleting] = useState<string | null>(null)

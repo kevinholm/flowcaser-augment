@@ -6,381 +6,405 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-// Utility types for better type safety
-export type Tables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Row']
-export type TablesInsert<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Insert']
-export type TablesUpdate<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Update']
+// Direct type definitions for all database tables
+export interface Team {
+  id: string
+  name: string
+  description: string | null
+  created_by: string
+  created_at: string
+  updated_at: string
+}
 
-// Specific table types for easier imports
-export type Team = Tables<'teams'>
-export type User = Tables<'users'>
-export type Bug = Tables<'bugs'>
-export type FeatureRequest = Tables<'feature_requests'>
-export type KnowledgeCase = Tables<'knowledge_cases'>
-export type TimeLog = Tables<'time_logs'>
-export type ChatMessage = Tables<'chat_messages'>
-export type Comment = Tables<'comments'>
-export type Notification = Tables<'notifications'>
-export type FileAttachment = Tables<'file_attachments'>
+export interface User {
+  id: string
+  email: string
+  full_name: string | null
+  avatar_url: string | null
+  team_id: string | null
+  role: 'admin' | 'member' | 'viewer'
+  created_at: string
+  updated_at: string
+}
 
-// Insert types
-export type TeamInsert = TablesInsert<'teams'>
-export type UserInsert = TablesInsert<'users'>
-export type BugInsert = TablesInsert<'bugs'>
-export type FeatureRequestInsert = TablesInsert<'feature_requests'>
-export type KnowledgeCaseInsert = TablesInsert<'knowledge_cases'>
-export type TimeLogInsert = TablesInsert<'time_logs'>
-export type ChatMessageInsert = TablesInsert<'chat_messages'>
-export type CommentInsert = TablesInsert<'comments'>
-export type NotificationInsert = TablesInsert<'notifications'>
-export type FileAttachmentInsert = TablesInsert<'file_attachments'>
+export interface Bug {
+  id: string
+  title: string
+  description: string
+  status: 'open' | 'in_progress' | 'resolved' | 'closed'
+  priority: 'low' | 'medium' | 'high' | 'critical'
+  assigned_to: string | null
+  team_id: string
+  created_by: string
+  created_at: string
+  updated_at: string
+}
 
-// Update types
-export type TeamUpdate = TablesUpdate<'teams'>
-export type UserUpdate = TablesUpdate<'users'>
-export type BugUpdate = TablesUpdate<'bugs'>
-export type FeatureRequestUpdate = TablesUpdate<'feature_requests'>
-export type KnowledgeCaseUpdate = TablesUpdate<'knowledge_cases'>
-export type TimeLogUpdate = TablesUpdate<'time_logs'>
-export type ChatMessageUpdate = TablesUpdate<'chat_messages'>
-export type CommentUpdate = TablesUpdate<'comments'>
-export type NotificationUpdate = TablesUpdate<'notifications'>
-export type FileAttachmentUpdate = TablesUpdate<'file_attachments'>
+export interface FeatureRequest {
+  id: string
+  title: string
+  description: string
+  status: 'pending' | 'approved' | 'in_development' | 'completed' | 'rejected'
+  priority: 'low' | 'medium' | 'high'
+  votes: number
+  team_id: string
+  created_by: string
+  created_at: string
+  updated_at: string
+}
 
+export interface KnowledgeCase {
+  id: string
+  title: string
+  content: string
+  category: string
+  tags: string[]
+  team_id: string
+  created_by: string
+  created_at: string
+  updated_at: string
+}
+
+export interface TimeLog {
+  id: string
+  description: string
+  hours: number
+  date: string
+  project: string | null
+  team_id: string
+  user_id: string
+  created_at: string
+  updated_at: string
+}
+
+export interface ChatMessage {
+  id: string
+  content: string
+  type: 'user' | 'ai' | 'system'
+  team_id: string
+  user_id: string | null
+  created_at: string
+}
+
+export interface Comment {
+  id: string
+  content: string
+  entity_type: 'bug' | 'feature_request' | 'knowledge_case'
+  entity_id: string
+  team_id: string
+  user_id: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Notification {
+  id: string
+  title: string
+  message: string
+  type: 'info' | 'success' | 'warning' | 'error'
+  read: boolean
+  team_id: string
+  user_id: string
+  created_at: string
+}
+
+export interface FileAttachment {
+  id: string
+  filename: string
+  file_path: string
+  file_size: number
+  mime_type: string
+  entity_type: 'bug' | 'feature_request' | 'knowledge_case' | 'chat_message'
+  entity_id: string
+  team_id: string
+  uploaded_by: string
+  created_at: string
+  public_url?: string
+}
+
+// Insert types (for creating new records)
+export interface TeamInsert {
+  id?: string
+  name: string
+  description?: string | null
+  created_by: string
+  created_at?: string
+  updated_at?: string
+}
+
+export interface UserInsert {
+  id: string
+  email: string
+  full_name?: string | null
+  avatar_url?: string | null
+  team_id?: string | null
+  role?: 'admin' | 'member' | 'viewer'
+  created_at?: string
+  updated_at?: string
+}
+
+export interface BugInsert {
+  id?: string
+  title: string
+  description: string
+  status?: 'open' | 'in_progress' | 'resolved' | 'closed'
+  priority?: 'low' | 'medium' | 'high' | 'critical'
+  assigned_to?: string | null
+  team_id: string
+  created_by: string
+  created_at?: string
+  updated_at?: string
+}
+
+export interface FeatureRequestInsert {
+  id?: string
+  title: string
+  description: string
+  status?: 'pending' | 'approved' | 'in_development' | 'completed' | 'rejected'
+  priority?: 'low' | 'medium' | 'high'
+  votes?: number
+  team_id: string
+  created_by: string
+  created_at?: string
+  updated_at?: string
+}
+
+export interface KnowledgeCaseInsert {
+  id?: string
+  title: string
+  content: string
+  category: string
+  tags?: string[]
+  team_id: string
+  created_by: string
+  created_at?: string
+  updated_at?: string
+}
+
+export interface TimeLogInsert {
+  id?: string
+  description: string
+  hours: number
+  date: string
+  project?: string | null
+  team_id: string
+  user_id: string
+  created_at?: string
+  updated_at?: string
+}
+
+export interface ChatMessageInsert {
+  id?: string
+  content: string
+  type?: 'user' | 'ai' | 'system'
+  team_id: string
+  user_id?: string | null
+  created_at?: string
+}
+
+export interface CommentInsert {
+  id?: string
+  content: string
+  entity_type: 'bug' | 'feature_request' | 'knowledge_case'
+  entity_id: string
+  team_id: string
+  user_id: string
+  created_at?: string
+  updated_at?: string
+}
+
+export interface NotificationInsert {
+  id?: string
+  title: string
+  message: string
+  type?: 'info' | 'success' | 'warning' | 'error'
+  read?: boolean
+  team_id: string
+  user_id: string
+  created_at?: string
+}
+
+export interface FileAttachmentInsert {
+  id?: string
+  filename: string
+  file_path: string
+  file_size: number
+  mime_type: string
+  entity_type: 'bug' | 'feature_request' | 'knowledge_case' | 'chat_message'
+  entity_id: string
+  team_id: string
+  uploaded_by: string
+  created_at?: string
+}
+
+// Update types (for updating existing records)
+export interface TeamUpdate {
+  id?: string
+  name?: string
+  description?: string | null
+  created_by?: string
+  created_at?: string
+  updated_at?: string
+}
+
+export interface UserUpdate {
+  id?: string
+  email?: string
+  full_name?: string | null
+  avatar_url?: string | null
+  team_id?: string | null
+  role?: 'admin' | 'member' | 'viewer'
+  created_at?: string
+  updated_at?: string
+}
+
+export interface BugUpdate {
+  id?: string
+  title?: string
+  description?: string
+  status?: 'open' | 'in_progress' | 'resolved' | 'closed'
+  priority?: 'low' | 'medium' | 'high' | 'critical'
+  assigned_to?: string | null
+  team_id?: string
+  created_by?: string
+  created_at?: string
+  updated_at?: string
+}
+
+export interface FeatureRequestUpdate {
+  id?: string
+  title?: string
+  description?: string
+  status?: 'pending' | 'approved' | 'in_development' | 'completed' | 'rejected'
+  priority?: 'low' | 'medium' | 'high'
+  votes?: number
+  team_id?: string
+  created_by?: string
+  created_at?: string
+  updated_at?: string
+}
+
+export interface KnowledgeCaseUpdate {
+  id?: string
+  title?: string
+  content?: string
+  category?: string
+  tags?: string[]
+  team_id?: string
+  created_by?: string
+  created_at?: string
+  updated_at?: string
+}
+
+export interface TimeLogUpdate {
+  id?: string
+  description?: string
+  hours?: number
+  date?: string
+  project?: string | null
+  team_id?: string
+  user_id?: string
+  created_at?: string
+  updated_at?: string
+}
+
+export interface ChatMessageUpdate {
+  id?: string
+  content?: string
+  type?: 'user' | 'ai' | 'system'
+  team_id?: string
+  user_id?: string | null
+  created_at?: string
+}
+
+export interface CommentUpdate {
+  id?: string
+  content?: string
+  entity_type?: 'bug' | 'feature_request' | 'knowledge_case'
+  entity_id?: string
+  team_id?: string
+  user_id?: string
+  created_at?: string
+  updated_at?: string
+}
+
+export interface NotificationUpdate {
+  id?: string
+  title?: string
+  message?: string
+  type?: 'info' | 'success' | 'warning' | 'error'
+  read?: boolean
+  team_id?: string
+  user_id?: string
+  created_at?: string
+}
+
+export interface FileAttachmentUpdate {
+  id?: string
+  filename?: string
+  file_path?: string
+  file_size?: number
+  mime_type?: string
+  entity_type?: 'bug' | 'feature_request' | 'knowledge_case' | 'chat_message'
+  entity_id?: string
+  team_id?: string
+  uploaded_by?: string
+  created_at?: string
+}
+
+// Database interface for Supabase
 export interface Database {
   public: {
     Tables: {
       teams: {
-        Row: {
-          id: string
-          name: string
-          description: string | null
-          created_by: string
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          name: string
-          description?: string | null
-          created_by: string
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          name?: string
-          description?: string | null
-          created_by?: string
-          created_at?: string
-          updated_at?: string
-        }
+        Row: Team
+        Insert: TeamInsert
+        Update: TeamUpdate
       }
       users: {
-        Row: {
-          id: string
-          email: string
-          full_name: string | null
-          avatar_url: string | null
-          team_id: string | null
-          role: 'admin' | 'member' | 'viewer'
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id: string
-          email: string
-          full_name?: string | null
-          avatar_url?: string | null
-          team_id?: string | null
-          role?: 'admin' | 'member' | 'viewer'
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          email?: string
-          full_name?: string | null
-          avatar_url?: string | null
-          team_id?: string | null
-          role?: 'admin' | 'member' | 'viewer'
-          created_at?: string
-          updated_at?: string
-        }
-      }
-      knowledge_cases: {
-        Row: {
-          id: string
-          title: string
-          content: string
-          category: string
-          tags: string[]
-          team_id: string
-          created_by: string
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          title: string
-          content: string
-          category: string
-          tags?: string[]
-          team_id: string
-          created_by: string
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          title?: string
-          content?: string
-          category?: string
-          tags?: string[]
-          team_id?: string
-          created_by?: string
-          created_at?: string
-          updated_at?: string
-        }
+        Row: User
+        Insert: UserInsert
+        Update: UserUpdate
       }
       bugs: {
-        Row: {
-          id: string
-          title: string
-          description: string
-          status: 'open' | 'in_progress' | 'resolved' | 'closed'
-          priority: 'low' | 'medium' | 'high' | 'critical'
-          assigned_to: string | null
-          team_id: string
-          created_by: string
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          title: string
-          description: string
-          status?: 'open' | 'in_progress' | 'resolved' | 'closed'
-          priority?: 'low' | 'medium' | 'high' | 'critical'
-          assigned_to?: string | null
-          team_id: string
-          created_by: string
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          title?: string
-          description?: string
-          status?: 'open' | 'in_progress' | 'resolved' | 'closed'
-          priority?: 'low' | 'medium' | 'high' | 'critical'
-          assigned_to?: string | null
-          team_id?: string
-          created_by?: string
-          created_at?: string
-          updated_at?: string
-        }
+        Row: Bug
+        Insert: BugInsert
+        Update: BugUpdate
       }
       feature_requests: {
-        Row: {
-          id: string
-          title: string
-          description: string
-          status: 'pending' | 'approved' | 'in_development' | 'completed' | 'rejected'
-          priority: 'low' | 'medium' | 'high'
-          votes: number
-          team_id: string
-          created_by: string
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          title: string
-          description: string
-          status?: 'pending' | 'approved' | 'in_development' | 'completed' | 'rejected'
-          priority?: 'low' | 'medium' | 'high'
-          votes?: number
-          team_id: string
-          created_by: string
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          title?: string
-          description?: string
-          status?: 'pending' | 'approved' | 'in_development' | 'completed' | 'rejected'
-          priority?: 'low' | 'medium' | 'high'
-          votes?: number
-          team_id?: string
-          created_by?: string
-          created_at?: string
-          updated_at?: string
-        }
+        Row: FeatureRequest
+        Insert: FeatureRequestInsert
+        Update: FeatureRequestUpdate
+      }
+      knowledge_cases: {
+        Row: KnowledgeCase
+        Insert: KnowledgeCaseInsert
+        Update: KnowledgeCaseUpdate
       }
       time_logs: {
-        Row: {
-          id: string
-          description: string
-          hours: number
-          date: string
-          project: string | null
-          team_id: string
-          user_id: string
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          description: string
-          hours: number
-          date: string
-          project?: string | null
-          team_id: string
-          user_id: string
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          description?: string
-          hours?: number
-          date?: string
-          project?: string | null
-          team_id?: string
-          user_id?: string
-          created_at?: string
-          updated_at?: string
-        }
+        Row: TimeLog
+        Insert: TimeLogInsert
+        Update: TimeLogUpdate
       }
       chat_messages: {
-        Row: {
-          id: string
-          content: string
-          type: 'user' | 'ai' | 'system'
-          team_id: string
-          user_id: string | null
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          content: string
-          type?: 'user' | 'ai' | 'system'
-          team_id: string
-          user_id?: string | null
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          content?: string
-          type?: 'user' | 'ai' | 'system'
-          team_id?: string
-          user_id?: string | null
-          created_at?: string
-        }
+        Row: ChatMessage
+        Insert: ChatMessageInsert
+        Update: ChatMessageUpdate
       }
       comments: {
-        Row: {
-          id: string
-          content: string
-          entity_type: 'bug' | 'feature_request' | 'knowledge_case'
-          entity_id: string
-          team_id: string
-          user_id: string
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          content: string
-          entity_type: 'bug' | 'feature_request' | 'knowledge_case'
-          entity_id: string
-          team_id: string
-          user_id: string
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          content?: string
-          entity_type?: 'bug' | 'feature_request' | 'knowledge_case'
-          entity_id?: string
-          team_id?: string
-          user_id?: string
-          created_at?: string
-          updated_at?: string
-        }
+        Row: Comment
+        Insert: CommentInsert
+        Update: CommentUpdate
       }
       notifications: {
-        Row: {
-          id: string
-          title: string
-          message: string
-          type: 'info' | 'success' | 'warning' | 'error'
-          read: boolean
-          team_id: string
-          user_id: string
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          title: string
-          message: string
-          type?: 'info' | 'success' | 'warning' | 'error'
-          read?: boolean
-          team_id: string
-          user_id: string
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          title?: string
-          message?: string
-          type?: 'info' | 'success' | 'warning' | 'error'
-          read?: boolean
-          team_id?: string
-          user_id?: string
-          created_at?: string
-        }
+        Row: Notification
+        Insert: NotificationInsert
+        Update: NotificationUpdate
       }
       file_attachments: {
-        Row: {
-          id: string
-          filename: string
-          file_path: string
-          file_size: number
-          mime_type: string
-          entity_type: 'bug' | 'feature_request' | 'knowledge_case' | 'chat_message'
-          entity_id: string
-          team_id: string
-          uploaded_by: string
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          filename: string
-          file_path: string
-          file_size: number
-          mime_type: string
-          entity_type: 'bug' | 'feature_request' | 'knowledge_case' | 'chat_message'
-          entity_id: string
-          team_id: string
-          uploaded_by: string
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          filename?: string
-          file_path?: string
-          file_size?: number
-          mime_type?: string
-          entity_type?: 'bug' | 'feature_request' | 'knowledge_case' | 'chat_message'
-          entity_id?: string
-          team_id?: string
-          uploaded_by?: string
-          created_at?: string
-        }
+        Row: FileAttachment
+        Insert: FileAttachmentInsert
+        Update: FileAttachmentUpdate
       }
     }
     Views: {
@@ -397,3 +421,26 @@ export interface Database {
     }
   }
 }
+
+// Utility types for easier access
+export type Tables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Row']
+export type TablesInsert<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Insert']
+export type TablesUpdate<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Update']
+
+// Type aliases for backward compatibility
+export type UserProfile = User
+export type BugReport = Bug
+export type Feature = FeatureRequest
+export type Knowledge = KnowledgeCase
+export type TimeEntry = TimeLog
+export type Message = ChatMessage
+
+// Status and priority types
+export type BugStatus = 'open' | 'in_progress' | 'resolved' | 'closed'
+export type BugPriority = 'low' | 'medium' | 'high' | 'critical'
+export type FeatureStatus = 'pending' | 'approved' | 'in_development' | 'completed' | 'rejected'
+export type FeaturePriority = 'low' | 'medium' | 'high'
+export type UserRole = 'admin' | 'member' | 'viewer'
+export type NotificationType = 'info' | 'success' | 'warning' | 'error'
+export type MessageType = 'user' | 'ai' | 'system'
+export type EntityType = 'bug' | 'feature_request' | 'knowledge_case' | 'chat_message'

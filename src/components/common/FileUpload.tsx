@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
-import { useAuth } from '@/components/providers/AuthProvider'
-import { uploadFile, FileUpload } from '@/lib/storage'
+import { useAuthStore } from '../../stores/authStore'
+import { uploadFile, type FileUpload } from '../../lib/storage'
 import toast from 'react-hot-toast'
 import {
   CloudArrowUpIcon,
@@ -40,13 +40,13 @@ export default function FileUpload({
     '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.txt', '.csv', '.json'
   ],
 }: FileUploadProps) {
-  const { user, profile } = useAuth()
+  const { user } = useAuthStore()
   const [uploading, setUploading] = useState(false)
   const [dragActive, setDragActive] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleFiles = async (files: FileList) => {
-    if (!user || !profile?.team_id) {
+    if (!user || !user.team_id) {
       toast.error('Du skal være logget ind for at uploade filer')
       return
     }
@@ -100,7 +100,7 @@ export default function FileUpload({
           file,
           entityType,
           entityId,
-          teamId: profile.team_id,
+          teamId: user.team_id!,
           uploadedBy: user.id,
         })
       )

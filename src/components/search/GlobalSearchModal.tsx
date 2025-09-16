@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import { useAuth } from '@/components/providers/AuthProvider'
-import { createSupabaseClient } from '@/lib/supabase'
-import Modal from '@/components/common/Modal'
-import Search from '@/components/common/Search'
-import Badge from '@/components/common/Badge'
+import { useAuthStore } from '../../stores/authStore'
+import { supabase } from '../../lib/supabase'
+import Modal from '../common/Modal'
+import Search from '../common/Search'
+import Badge from '../common/Badge'
 import {
   BugAntIcon,
   LightBulbIcon,
@@ -28,11 +28,10 @@ interface GlobalSearchModalProps {
 }
 
 export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModalProps) {
-  const { profile } = useAuth()
+  const { user } = useAuthStore()
   const [results, setResults] = useState<SearchResult[]>([])
   const [loading, setLoading] = useState(false)
   const [recentSearches, setRecentSearches] = useState<string[]>([])
-  const supabase = createSupabaseClient()
 
   useEffect(() => {
     // Load recent searches from localStorage
@@ -53,7 +52,7 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
   }
 
   const handleSearch = async (query: string) => {
-    if (!query.trim() || !profile?.team_id) {
+    if (!query.trim() || !user?.team_id) {
       setResults([])
       return
     }
@@ -70,39 +69,39 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
         supabase
           .from('bugs')
           .select('id, title, description, status, priority')
-          .eq('team_id', profile.team_id)
+          .eq('team_id', user.team_id)
           .or(`title.ilike.${searchTerm},description.ilike.${searchTerm}`)
           .limit(10),
-        
+
         // Search features
         supabase
           .from('feature_requests')
           .select('id, title, description, status, priority, votes')
-          .eq('team_id', profile.team_id)
+          .eq('team_id', user.team_id)
           .or(`title.ilike.${searchTerm},description.ilike.${searchTerm}`)
           .limit(10),
-        
+
         // Search knowledge
         supabase
           .from('knowledge_cases')
           .select('id, title, content, category, tags')
-          .eq('team_id', profile.team_id)
+          .eq('team_id', user.team_id)
           .or(`title.ilike.${searchTerm},content.ilike.${searchTerm},category.ilike.${searchTerm}`)
           .limit(10),
-        
+
         // Search time logs
         supabase
           .from('time_logs')
           .select('id, description, hours, date, project')
-          .eq('team_id', profile.team_id)
+          .eq('team_id', user.team_id)
           .or(`description.ilike.${searchTerm},project.ilike.${searchTerm}`)
           .limit(10),
-        
+
         // Search users
         supabase
           .from('users')
           .select('id, full_name, email, role')
-          .eq('team_id', profile.team_id)
+          .eq('team_id', user.team_id)
           .or(`full_name.ilike.${searchTerm},email.ilike.${searchTerm}`)
           .limit(5)
       ])

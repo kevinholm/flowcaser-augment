@@ -1,9 +1,26 @@
 // Global type declarations
+/// <reference types="react" />
+/// <reference types="react-dom" />
 
 // Extend Window interface for any global variables
 declare global {
   interface Window {
     __notificationChannel?: any
+  }
+
+  // JSX namespace for React components
+  namespace JSX {
+    interface IntrinsicElements {
+      [elemName: string]: any
+    }
+    interface Element extends React.ReactElement<any, any> {}
+    interface ElementClass extends React.Component<any> {}
+    interface ElementAttributesProperty {
+      props: {}
+    }
+    interface ElementChildrenAttribute {
+      children: {}
+    }
   }
 }
 
