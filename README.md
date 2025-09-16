@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+# flowcaser-augment
 # FlowCaser - Dansk SaaS Platform
 
 FlowCaser er en komplet SaaS platform til projektledelse, bug tracking, vidensdeling og team samarbejde på dansk.
@@ -184,6 +184,3 @@ For hjælp og support, opret venligst et issue i GitHub repository.
 ---
 
 **FlowCaser** - Effektiv projektledelse på dansk 🇩🇰
-=======
-# flowcaser-augment
->>>>>>> 0317faa9300c7517843cec2a35a21477a4e3bffc

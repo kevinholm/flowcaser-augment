@@ -14,9 +14,7 @@ import {
   PlusIcon,
   MagnifyingGlassIcon,
   BugAntIcon,
-  CalendarIcon,
   UserIcon,
-  ExclamationTriangleIcon,
   FunnelIcon,
 } from '@heroicons/react/24/outline'
 import { format } from 'date-fns'
@@ -74,7 +72,6 @@ export default function BugsPage() {
   useEffect(() => {
     const fetchBugs = async () => {
       if (!profile?.team_id) return
-
       setLoading(true)
       setError(null)
 
@@ -90,7 +87,6 @@ export default function BugsPage() {
           .order(sortBy, { ascending: sortOrder === 'asc' })
 
         if (error) throw error
-
         setBugs(data || [])
       } catch (error: any) {
         console.error('Error fetching bugs:', error)
@@ -104,17 +100,15 @@ export default function BugsPage() {
   }, [profile?.team_id, supabase, sortBy, sortOrder])
 
   const filteredBugs = bugs.filter(bug => {
-    const matchesSearch = bug.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         bug.description.toLowerCase().includes(searchTerm.toLowerCase())
-
+    const matchesSearch =
+      bug.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      bug.description.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesStatus = !selectedStatus || bug.status === selectedStatus
     const matchesPriority = !selectedPriority || bug.priority === selectedPriority
-
     return matchesSearch && matchesStatus && matchesPriority
   })
 
   const handleBugClick = (bug: Bug) => {
-    // Navigate to bug detail page (to be implemented)
     console.log('Navigate to bug:', bug.id)
   }
 
@@ -128,17 +122,17 @@ export default function BugsPage() {
           <h4 className="font-medium text-gray-900">{bug.title}</h4>
           <p className="text-sm text-gray-500 line-clamp-2">{bug.description}</p>
         </div>
-      )
+      ),
     },
     {
       key: 'status',
       label: 'Status',
-      render: (bug: Bug) => <StatusBadge status={bug.status as any} />
+      render: (bug: Bug) => <StatusBadge status={bug.status as any} />,
     },
     {
       key: 'priority',
       label: 'Prioritet',
-      render: (bug: Bug) => <PriorityBadge priority={bug.priority as any} />
+      render: (bug: Bug) => <PriorityBadge priority={bug.priority as any} />,
     },
     {
       key: 'assignee',
@@ -150,7 +144,7 @@ export default function BugsPage() {
             {bug.assignee?.full_name || bug.assignee?.email || 'Ikke tildelt'}
           </span>
         </div>
-      )
+      ),
     },
     {
       key: 'created_at',
@@ -160,8 +154,8 @@ export default function BugsPage() {
         <div className="text-sm text-gray-500">
           {format(new Date(bug.created_at), 'dd/MM/yyyy', { locale: da })}
         </div>
-      )
-    }
+      ),
+    },
   ]
 
   return (
@@ -175,10 +169,7 @@ export default function BugsPage() {
               Spor og håndter bugs og fejl i jeres projekter
             </p>
           </div>
-          <Button
-            href="/bugs/new"
-            icon={<PlusIcon className="h-5 w-5" />}
-          >
+          <Button href="/bugs/new" icon={<PlusIcon className="h-5 w-5" />}>
             Ny Bug
           </Button>
         </div>
@@ -243,14 +234,10 @@ export default function BugsPage() {
               <p className="text-gray-500 mb-6">
                 {bugs.length === 0
                   ? 'Start med at rapportere din første bug'
-                  : 'Prøv at justere dine søgekriterier'
-                }
+                  : 'Prøv at justere dine søgekriterier'}
               </p>
               {bugs.length === 0 && (
-                <Button
-                  href="/bugs/new"
-                  icon={<PlusIcon className="h-5 w-5" />}
-                >
+                <Button href="/bugs/new" icon={<PlusIcon className="h-5 w-5" />}>
                   Rapporter Bug
                 </Button>
               )}
@@ -271,4 +258,5 @@ export default function BugsPage() {
         </div>
       </div>
     </AppLayout>
+  )
 }

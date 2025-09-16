@@ -15,12 +15,14 @@
             display: -webkit-box;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 1;
+            line-clamp: 1;
         }
         .line-clamp-3 {
             overflow: hidden;
             display: -webkit-box;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 3;
+            line-clamp: 3;
         }
         .form-label {
             display: block;
@@ -82,7 +84,7 @@
                 lg: "h-8 w-8"
             };
             return React.createElement("div", {
-                className: `loading-spinner ${sizeClasses[size]}`
+                className: `animate-spin rounded-full border-2 border-gray-300 border-t-blue-600 ${sizeClasses[size]}`
             });
         }
 
@@ -157,7 +159,7 @@
                                   latestBugs.slice(0,5).map(b => (
                                     React.createElement("li", { key: b.id, className: "flex items-center justify-between" },
                                       React.createElement("div", { className: "text-sm font-medium text-gray-900 line-clamp-1" }, b.title),
-                                      React.createElement("span", { className: `badge ${b.status === 'open' ? 'badge-danger' : 'badge-success'}` }, b.status === 'open' ? 'Åben' : 'Lukket')
+                                      React.createElement("span", { className: `inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${b.status === 'open' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}` }, b.status === 'open' ? 'Åben' : 'Lukket')
                                     )
                                   ))
                                 )
@@ -230,9 +232,9 @@
         function Bugs() {
             const getStatusBadge = (status) => {
                 const styles = {
-                    open: "badge-danger",
-                    in_progress: "badge-warning",
-                    resolved: "badge-success"
+                    open: "bg-red-100 text-red-800",
+                    in_progress: "bg-yellow-100 text-yellow-800",
+                    resolved: "bg-green-100 text-green-800"
                 };
                 const labels = {
                     open: "Åben",
@@ -240,7 +242,7 @@
                     resolved: "Løst"
                 };
                 return React.createElement("span", {
-                    className: `badge ${styles[status] || "badge-primary"}`
+                    className: `inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${styles[status] || "bg-blue-100 text-blue-800"}`
                 }, labels[status] || status);
             };
 
@@ -283,7 +285,7 @@
                                         React.createElement("td", { className: "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" }, bug.title),
                                         React.createElement("td", { className: "px-6 py-4 whitespace-nowrap" }, getStatusBadge(bug.status)),
                                         React.createElement("td", { className: "px-6 py-4 whitespace-nowrap" },
-                                            React.createElement("span", { className: `badge ${bug.priority === 'critical' ? 'badge-danger' : bug.priority === 'high' ? 'bg-orange-100 text-orange-800' : 'badge-warning'}` },
+                                            React.createElement("span", { className: `inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${bug.priority === 'critical' ? 'bg-red-100 text-red-800' : bug.priority === 'high' ? 'bg-orange-100 text-orange-800' : 'bg-yellow-100 text-yellow-800'}` },
                                                 bug.priority === 'critical' ? 'Kritisk' : bug.priority === 'high' ? 'Høj' : 'Medium'
                                             )
                                         ),
@@ -318,13 +320,13 @@
                 ),
                 React.createElement("div", { className: "space-y-4" },
                     mockFeatures.map(feature =>
-                        React.createElement("div", { key: feature.id, className: "card card-hover" },
-                            React.createElement("div", { className: "card-body" },
+                        React.createElement("div", { key: feature.id, className: "bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer" },
+                            React.createElement("div", { className: "p-6" },
                                 React.createElement("div", { className: "flex items-start justify-between" },
                                     React.createElement("div", { className: "flex-1" },
                                         React.createElement("h3", { className: "text-lg font-medium text-gray-900 mb-2" }, feature.title),
                                         React.createElement("div", { className: "flex items-center space-x-2 mb-2" },
-                                            React.createElement("span", { className: "badge badge-primary" },
+                                            React.createElement("span", { className: "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800" },
                                                 feature.status === 'pending' ? 'Afventer' :
                                                 feature.status === 'approved' ? 'Godkendt' : 'Under udvikling'
                                             ),
@@ -359,12 +361,12 @@
                     React.createElement("button", { className: "inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-sm transition-all duration-200", onClick: () => alert("Tilføj viden kommer snart!") }, "➕ Tilføj Viden")
                 ),
                 React.createElement("div", { className: "grid grid-cols-1 gap-6 lg:grid-cols-2" },
-                    mockKnowledge.map(k => React.createElement("div", { key: k.id, className: "card card-hover" },
-                        React.createElement("div", { className: "card-body" },
+                    mockKnowledge.map(k => React.createElement("div", { key: k.id, className: "bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer" },
+                        React.createElement("div", { className: "p-6" },
                             React.createElement("div", { className: "flex items-start justify-between" },
                                 React.createElement("div", { className: "flex-1" },
                                     React.createElement("h3", { className: "text-lg font-medium text-gray-900 mb-2" }, k.title),
-                                    React.createElement("span", { className: "badge badge-secondary mb-3" }, k.category || 'Generelt'),
+                                    React.createElement("span", { className: "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-white text-gray-700 border border-gray-300 mb-3" }, k.category || 'Generelt'),
                                     React.createElement("p", { className: "text-gray-600 line-clamp-3 mb-4" }, k.content),
                                     React.createElement("div", { className: "flex items-center justify-between text-sm text-gray-500" },
                                         React.createElement("span", null, `Oprettet ${new Date(k.created_at).toLocaleDateString('da-DK')}`),
@@ -395,22 +397,22 @@
                     React.createElement("button", { className: "inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-sm transition-all duration-200", onClick: () => alert("Registrering kommer snart!") }, "➕ Registrer Tid")
                 ),
                 React.createElement("div", { className: "grid grid-cols-1 gap-5 sm:grid-cols-3" },
-                    React.createElement("div", { className: "card" }, React.createElement("div", { className: "card-body" },
+                    React.createElement("div", { className: "bg-white rounded-lg border border-gray-200 shadow-sm" }, React.createElement("div", { className: "p-6" },
                         React.createElement("div", { className: "text-sm text-gray-500" }, "Total timer"),
                         React.createElement("div", { className: "mt-1 text-2xl font-semibold text-gray-900" }, totalHours)
                     )),
-                    React.createElement("div", { className: "card" }, React.createElement("div", { className: "card-body" },
+                    React.createElement("div", { className: "bg-white rounded-lg border border-gray-200 shadow-sm" }, React.createElement("div", { className: "p-6" },
                         React.createElement("div", { className: "text-sm text-gray-500" }, "Denne uge"),
                         React.createElement("div", { className: "mt-1 text-2xl font-semibold text-gray-900" }, weeklyHours)
                     )),
-                    React.createElement("div", { className: "card" }, React.createElement("div", { className: "card-body" },
+                    React.createElement("div", { className: "bg-white rounded-lg border border-gray-200 shadow-sm" }, React.createElement("div", { className: "p-6" },
                         React.createElement("div", { className: "text-sm text-gray-500" }, "Projekter"),
                         React.createElement("div", { className: "mt-1 text-2xl font-semibold text-gray-900" }, Object.keys(projectHours).length)
                     ))
                 ),
-                Object.keys(projectHours).length > 0 && React.createElement("div", { className: "card" },
-                    React.createElement("div", { className: "card-header" }, React.createElement("h3", { className: "text-lg font-medium text-gray-900" }, "Timer per projekt")),
-                    React.createElement("div", { className: "card-body" },
+                Object.keys(projectHours).length > 0 && React.createElement("div", { className: "bg-white rounded-lg border border-gray-200 shadow-sm" },
+                    React.createElement("div", { className: "px-6 py-4 border-b border-gray-200" }, React.createElement("h3", { className: "text-lg font-medium text-gray-900" }, "Timer per projekt")),
+                    React.createElement("div", { className: "p-6" },
                         React.createElement("div", { className: "space-y-3" },
                             Object.entries(projectHours).sort(([,a],[,b]) => b-a).map(([project, hours]) =>
                                 React.createElement("div", { key: project, className: "flex items-center justify-between" },
@@ -421,9 +423,9 @@
                         )
                     )
                 ),
-                React.createElement("div", { className: "card" },
-                    React.createElement("div", { className: "card-header" }, React.createElement("h3", { className: "text-lg font-medium text-gray-900" }, `Seneste registreringer (${mockTimeLogs.length})`)),
-                    React.createElement("div", { className: "card-body p-0" },
+                React.createElement("div", { className: "bg-white rounded-lg border border-gray-200 shadow-sm" },
+                    React.createElement("div", { className: "px-6 py-4 border-b border-gray-200" }, React.createElement("h3", { className: "text-lg font-medium text-gray-900" }, `Seneste registreringer (${mockTimeLogs.length})`)),
+                    React.createElement("div", { className: "p-0" },
                         React.createElement("div", { className: "overflow-x-auto" },
                             React.createElement("table", { className: "min-w-full divide-y divide-gray-200" },
                                 React.createElement("thead", { className: "bg-gray-50" },
@@ -437,7 +439,7 @@
                                 React.createElement("tbody", { className: "bg-white divide-y divide-gray-200" },
                                     mockTimeLogs.map(log => React.createElement("tr", { key: log.id, className: "hover:bg-gray-50" },
                                         React.createElement("td", { className: "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" }, log.description),
-                                        React.createElement("td", { className: "px-6 py-4 whitespace-nowrap" }, React.createElement("span", { className: "badge badge-secondary" }, log.project)),
+                                        React.createElement("td", { className: "px-6 py-4 whitespace-nowrap" }, React.createElement("span", { className: "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-white text-gray-700 border border-gray-300" }, log.project)),
                                         React.createElement("td", { className: "px-6 py-4 whitespace-nowrap text-sm text-gray-900" }, `${log.hours} timer`),
                                         React.createElement("td", { className: "px-6 py-4 whitespace-nowrap text-sm text-gray-900" }, new Date(log.date).toLocaleDateString('da-DK'))
                                     ))
@@ -458,17 +460,17 @@
                     ),
                     React.createElement("p", { className: "mt-1 text-sm text-gray-500" }, "Administrer din konto og præferencer")
                 ),
-                React.createElement("div", { className: "card" },
-                    React.createElement("div", { className: "card-header" }, React.createElement("h3", { className: "text-lg font-medium text-gray-900" }, "Profil Information")),
-                    React.createElement("div", { className: "card-body space-y-6" },
+                React.createElement("div", { className: "bg-white rounded-lg border border-gray-200 shadow-sm" },
+                    React.createElement("div", { className: "px-6 py-4 border-b border-gray-200" }, React.createElement("h3", { className: "text-lg font-medium text-gray-900" }, "Profil Information")),
+                    React.createElement("div", { className: "p-6 space-y-6" },
                         React.createElement("div", { className: "grid grid-cols-1 gap-6 sm:grid-cols-2" },
                             React.createElement("div", null,
                                 React.createElement("label", { className: "form-label" }, "Email"),
-                                React.createElement("input", { type: "email", value: "demo@flowcaser.dk", disabled: true, className: "form-input bg-gray-50" })
+                                React.createElement("input", { type: "email", value: "demo@flowcaser.dk", disabled: true, className: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm transition-colors duration-200 bg-gray-50" })
                             ),
                             React.createElement("div", null,
                                 React.createElement("label", { className: "form-label" }, "Fulde navn"),
-                                React.createElement("input", { type: "text", placeholder: "Dit fulde navn", className: "form-input" })
+                                React.createElement("input", { type: "text", placeholder: "Dit fulde navn", className: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm transition-colors duration-200" })
                             )
                         ),
                         React.createElement("div", { className: "flex justify-end" },
@@ -565,7 +567,7 @@
                             value: message,
                             onChange: (e) => setMessage(e.target.value),
                             placeholder: "Spørg om bugs, features, viden eller tid...",
-                            className: "form-input flex-1",
+                            className: "block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm transition-colors duration-200 flex-1",
                             disabled: loading
                         }),
                         React.createElement("button", {
@@ -625,7 +627,7 @@
                                         React.createElement("button", {
                                             key: item.id,
                                             onClick: () => setCurrentPage(item.id),
-                                            className: currentPage === item.id ? "nav-link-active w-full text-left" : "nav-link-inactive w-full text-left"
+                                            className: currentPage === item.id ? "flex items-center px-2 py-2 text-sm font-medium rounded-md bg-blue-100 text-blue-700 w-full text-left" : "flex items-center px-2 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-200 w-full text-left"
                                         },
                                             React.createElement("span", { className: "mr-3" }, item.icon),
                                             item.name
