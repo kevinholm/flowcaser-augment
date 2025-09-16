@@ -17,19 +17,14 @@
     }
   },
   "include": [
-    "src/components",
-    "src/pages",
-    "src/lib",
-    "src/stores",
-    "src/App.tsx",
-    "src/main.tsx",
-    "src/index.css",
+    "src/**/*",
     "vite.config.ts"
   ],
   "exclude": [
-    "src/app",
-    "node_modules",
-    "dist"
+    "node_modules/**/*",
+    "dist/**/*",
+    "**/*.test.*",
+    "**/*.spec.*"
   ]
 }
 
