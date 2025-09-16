@@ -1,5 +1,3 @@
-'use client'
-
 import { useState, useRef } from 'react'
 import { useAuth } from '@/components/providers/AuthProvider'
 import { uploadFile, FileUpload } from '@/lib/storage'

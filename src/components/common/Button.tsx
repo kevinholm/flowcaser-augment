@@ -1,5 +1,3 @@
-'use client'
-
 import { ReactNode, ButtonHTMLAttributes } from 'react'
 import LoadingSpinner from './LoadingSpinner'
 

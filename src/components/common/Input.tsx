@@ -1,5 +1,3 @@
-'use client'
-
 import { forwardRef, InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from 'react'
 import { ExclamationCircleIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react'

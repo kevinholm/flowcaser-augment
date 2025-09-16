@@ -1,5 +1,3 @@
-'use client'
-
 import { ReactNode, useState } from 'react'
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
 
