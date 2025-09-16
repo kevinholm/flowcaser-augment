@@ -100,4 +100,4 @@ export default function ChatPage() {
       </div>
     </AppLayout>
   )
-
+}
