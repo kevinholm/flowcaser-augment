@@ -189,7 +189,7 @@ export default function Features() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center">
             <LightBulbIcon className="h-8 w-8 text-yellow-500 mr-3" />
-            Feature Ønsker
+            Ønsker
           </h1>
           <p className="mt-1 text-sm text-gray-500">
             Foreslå og stem på nye funktioner
@@ -197,10 +197,10 @@ export default function Features() {
         </div>
         <button
           onClick={() => setShowCreate(true)}
-          className="btn-primary"
+          className="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg flex items-center font-medium transition-colors"
         >
           <PlusIcon className="h-5 w-5 mr-2" />
-          Foreslå Feature
+          Foreslå Ønske
         </button>
       </div>
 

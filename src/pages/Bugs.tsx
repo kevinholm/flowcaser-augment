@@ -211,10 +211,10 @@ export default function Bugs() {
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
-          className="btn-primary"
+          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center font-medium transition-colors"
         >
           <PlusIcon className="h-5 w-5 mr-2" />
-          Rapporter Bug
+          Rapporter Fejl
         </button>
       </div>
 

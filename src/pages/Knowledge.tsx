@@ -164,10 +164,10 @@ export default function Knowledge() {
         </div>
         <button
           onClick={() => setShowCreate(true)}
-          className="btn-primary"
+          className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center font-medium transition-colors"
         >
           <PlusIcon className="h-5 w-5 mr-2" />
-          Tilføj Viden
+          Opret første case
         </button>
       </div>
 
@@ -217,19 +217,31 @@ export default function Knowledge() {
       </div>
 
       {/* Results */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {filteredCases.length === 0 ? (
-          <div className="col-span-full text-center py-12">
-            <BookOpenIcon className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Ingen viden fundet</h3>
-            <p className="text-gray-500 mb-4">
-              {searchTerm || categoryFilter !== 'all'
-                ? 'Prøv at justere dine filtre'
-                : 'Tilføj din første videns artikel for at komme i gang'
-              }
-            </p>
+      {filteredCases.length === 0 ? (
+        <div className="text-center py-16">
+          <div className="w-24 h-24 bg-purple-100 rounded-full mx-auto flex items-center justify-center mb-6">
+            <BookOpenIcon className="h-12 w-12 text-purple-600" />
           </div>
-        ) : (
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            Velkommen til Videnbase
+          </h2>
+          <p className="text-gray-600 mb-8 max-w-md mx-auto">
+            {searchTerm || categoryFilter !== 'all'
+              ? 'Ingen resultater fundet. Prøv at justere dine filtre.'
+              : 'Opret din første videns case for at dele viden og dokumentation med dit team.'
+            }
+          </p>
+          {!searchTerm && categoryFilter === 'all' && (
+            <button
+              onClick={() => setShowCreate(true)}
+              className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+            >
+              Opret første case
+            </button>
+          )}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           filteredCases.map((case_) => (
             <div key={case_.id} className="card card-hover">
               <div className="card-body">
@@ -268,8 +280,10 @@ export default function Knowledge() {
               </div>
             </div>
           ))
-        )}
+        </div>
+      )}
       </div>
+
       {/* Create Knowledge Modal */}
       <FormModal
         isOpen={showCreate}

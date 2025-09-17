@@ -3,54 +3,38 @@ import { ClockIcon, PlusIcon, CalendarIcon, PencilSquareIcon, TrashIcon } from '
 import { supabase } from '../lib/supabase'
 import { useAuthStore } from '../stores/authStore'
 import LoadingSpinner from '../components/common/LoadingSpinner'
+import SmartTimeModal from '../components/time/SmartTimeModal'
 import toast from 'react-hot-toast'
 import { FormModal, ConfirmModal } from '../components/common/Modal'
 import type { TimeLog, TimeLogInsert, TimeLogUpdate } from '../lib/database.types'
 
 export default function Time() {
+  const { user } = useAuthStore()
   const [timeLogs, setTimeLogs] = useState<TimeLog[]>([])
   const [loading, setLoading] = useState(true)
-  const [showCreateModal, setShowCreateModal] = useState(false)
-  const [teamId, setTeamId] = useState<string | null>(null)
+  const [showSmartModal, setShowSmartModal] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selected, setSelected] = useState<TimeLog | null>(null)
   const [submitting, setSubmitting] = useState(false)
-  const [createForm, setCreateForm] = useState<Pick<TimeLogInsert, 'description' | 'project' | 'hours' | 'date'>>({
-    description: '',
-    project: '',
-    hours: 1,
-    date: new Date().toISOString().slice(0,10)
-  })
-  const [editForm, setEditForm] = useState<Pick<TimeLogUpdate, 'description' | 'project' | 'hours' | 'date'>>({
-    description: '',
-    project: '',
-    hours: 1,
-    date: new Date().toISOString().slice(0,10)
-  })
-
-  const { user } = useAuthStore()
 
   useEffect(() => {
     const init = async () => {
       if (!user) return
-      const { data: profile } = await supabase.from('users').select('team_id').eq('id', user.id).single()
-      setTeamId(profile?.team_id || null)
-      await fetchTimeLogs(profile?.team_id || null)
+      await fetchTimeLogs()
     }
     init()
   }, [user])
 
-  const fetchTimeLogs = async (team?: string | null) => {
+  const fetchTimeLogs = async () => {
     try {
       setLoading(true)
-      let query = supabase
+      const { data, error } = await supabase
         .from('time_logs')
         .select('*')
+        .eq('team_id', user?.team_id)
         .order('date', { ascending: false })
-      if (team) query = query.eq('team_id', team)
 
-      const { data, error } = await query
       if (error) throw error
       setTimeLogs(data || [])
     } catch (error: any) {
@@ -60,9 +44,27 @@ export default function Time() {
       setLoading(false)
     }
   }
-  const resetForms = () => {
-    setCreateForm({ description: '', project: '', hours: 1, date: new Date().toISOString().slice(0,10) })
-    setEditForm({ description: '', project: '', hours: 1, date: new Date().toISOString().slice(0,10) })
+
+  const handleSaveTimeLog = async (timeLogData: any) => {
+    try {
+      setSubmitting(true)
+      const { error } = await supabase
+        .from('time_logs')
+        .insert({
+          ...timeLogData,
+          team_id: user?.team_id,
+          user_id: user?.id
+        })
+
+      if (error) throw error
+      toast.success('Tidsregistrering gemt!')
+      await fetchTimeLogs()
+    } catch (error: any) {
+      console.error('Error saving time log:', error)
+      toast.error('Fejl ved gemning af tidsregistrering')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const createTimeSubmit = async () => {
@@ -187,11 +189,11 @@ export default function Time() {
           </p>
         </div>
         <button
-          onClick={() => setShowCreateModal(true)}
-          className="btn-primary"
+          onClick={() => setShowSmartModal(true)}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center font-medium transition-colors"
         >
           <PlusIcon className="h-5 w-5 mr-2" />
-          Registrer Tid
+          Smart Tidsregistrering
         </button>
       </div>
 
@@ -428,6 +430,13 @@ export default function Time() {
         title="Slet registrering?"
         message={`Er du sikker p\u00e5 at du vil slette \"${selected?.description}\"? Dette kan ikke fortrydes.`}
         loading={submitting}
+      />
+
+      {/* Smart Time Modal */}
+      <SmartTimeModal
+        isOpen={showSmartModal}
+        onClose={() => setShowSmartModal(false)}
+        onSave={handleSaveTimeLog}
       />
     </div>
   )
