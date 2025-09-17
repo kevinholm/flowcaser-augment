@@ -444,3 +444,61 @@ export type UserRole = 'admin' | 'member' | 'viewer'
 export type NotificationType = 'info' | 'success' | 'warning' | 'error'
 export type MessageType = 'user' | 'ai' | 'system'
 export type EntityType = 'bug' | 'feature_request' | 'knowledge_case' | 'chat_message'
+
+// Supabase Database interface structure
+export interface Database {
+  public: {
+    Tables: {
+      users: {
+        Row: User
+        Insert: UserInsert
+        Update: UserUpdate
+      }
+      teams: {
+        Row: Team
+        Insert: TeamInsert
+        Update: TeamUpdate
+      }
+      bugs: {
+        Row: Bug
+        Insert: BugInsert
+        Update: BugUpdate
+      }
+      feature_requests: {
+        Row: FeatureRequest
+        Insert: FeatureRequestInsert
+        Update: FeatureRequestUpdate
+      }
+      knowledge_cases: {
+        Row: KnowledgeCase
+        Insert: KnowledgeCaseInsert
+        Update: KnowledgeCaseUpdate
+      }
+      time_logs: {
+        Row: TimeLog
+        Insert: TimeLogInsert
+        Update: TimeLogUpdate
+      }
+      chat_messages: {
+        Row: ChatMessage
+        Insert: ChatMessageInsert
+        Update: ChatMessageUpdate
+      }
+      comments: {
+        Row: Comment
+        Insert: CommentInsert
+        Update: CommentUpdate
+      }
+      notifications: {
+        Row: Notification
+        Insert: NotificationInsert
+        Update: NotificationUpdate
+      }
+      file_attachments: {
+        Row: FileAttachment
+        Insert: FileAttachmentInsert
+        Update: FileAttachmentUpdate
+      }
+    }
+  }
+}
