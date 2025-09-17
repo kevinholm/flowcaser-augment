@@ -130,7 +130,7 @@ export default function Settings() {
                   : 'border-transparent text-gray-500 hover:text-gray-700'
               }`}
             >
-              <XMarkIcon className="h-4 w-4 mr-1" />
+              <UserIcon className="h-4 w-4 mr-1" />
               Profil
             </button>
             <button

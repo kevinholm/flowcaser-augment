@@ -242,7 +242,7 @@ export default function Knowledge() {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          filteredCases.map((case_) => (
+          {filteredCases.map((case_) => (
             <div key={case_.id} className="card card-hover">
               <div className="card-body">
                 <div className="flex items-start justify-between">
@@ -279,10 +279,9 @@ export default function Knowledge() {
                 </div>
               </div>
             </div>
-          ))
+          ))}
         </div>
       )}
-      </div>
 
       {/* Create Knowledge Modal */}
       <FormModal
